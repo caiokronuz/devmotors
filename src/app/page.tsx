@@ -2,6 +2,7 @@ import { Submenu } from "@/components/home/submenu";
 import { Hero } from "@/components/hero";
 import { Services } from "@/components/home/services";
 import { Container } from "@/components/container";
+import { Footer } from "@/components/home/footer";
 import {Phone} from 'lucide-react';
 
 import { getDataHome } from "@/utils/actions/get-data";
@@ -26,6 +27,7 @@ export default async function Home() {
 
       <Container>
         <Services object={object} />
+        <Footer object={object}/>
       </Container>
     </main>
   );
