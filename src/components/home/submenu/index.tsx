@@ -4,8 +4,13 @@ import Link from 'next/link';
 import {X, Menu} from 'lucide-react';
 
 import styles from './styles.module.scss';
+import { MenuProps } from '@/utils/menu-types';
 
-export function Submenu(){
+interface SubMenuProps{
+    menu: MenuProps;
+}
+
+export function Submenu({menu}: SubMenuProps){
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -29,7 +34,7 @@ export function Submenu(){
     return(
         <section className={styles.submenu}>
 
-            <div className={styles.submenuIcon} onClick={toggleMenu}>
+            <div className={styles.submenuIcon} onClick={toggleMenu}> 
                 <Menu size={34} color="#121212" />
                 Menu
             </div>
@@ -42,21 +47,14 @@ export function Submenu(){
                     </button>
                 )}
 
-                <li>
-                    <Link href="/post/pagina-1">
-                        Página 1
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/post/pagina-2">
-                        Página 2
-                    </Link>
-                </li>
-                <li>
-                    <Link href="/post/pagina-3">
-                        Página 3
-                    </Link>
-                </li>
+                {menu.objects.map(item => 
+                    <li key={item.slug}>
+                        <Link href={`/post/${item.slug}`}>
+                            {item.title}
+                        </Link>
+                    </li>
+                )}
+                 
             </ul>
         </section>
     )

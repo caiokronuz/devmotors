@@ -5,17 +5,18 @@ import { Container } from "@/components/container";
 import { Footer } from "@/components/home/footer";
 import {Phone} from 'lucide-react';
 
-import { getDataHome } from "@/utils/actions/get-data";
+import { getDataHome, getSubMenu } from "@/utils/actions/get-data";
 import { HomeProps } from "@/utils/home-types";
+import { MenuProps } from "@/utils/menu-types";
 
 export default async function Home() {
 
   const {object}: HomeProps = await getDataHome();
-  console.log(object.title)
+  const menu: MenuProps = await getSubMenu();
 
   return (
     <main>
-      <Submenu />
+      {menu.objects.length > 0 && <Submenu menu={menu}/>}
       
       <Hero
         heading={object.metadata.heading}
