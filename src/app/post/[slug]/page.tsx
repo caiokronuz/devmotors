@@ -10,6 +10,44 @@ import Image from 'next/image';
 import styles from './styles.module.scss';
 import { Phone } from 'lucide-react';
 
+import { Metadata } from 'next';
+
+export async function generateMetadata({params: {slug}}: {params:{slug: string}}): Promise<Metadata>{
+    try{
+        const { objects }: PostProps = await getItemBySlug(slug)
+            .catch(() => {
+                return{
+                    title: "Devmotors",
+                    description: "A melhor oficina para manutenção do seu possante.",
+                }
+            })
+
+        return{
+            title: `DevMotors - ${objects[0].title}`,
+            description: `${objects[0].metadata.description.text}`,
+            openGraph: {
+                title: `DevMotors - ${objects[0].title}`,
+                images: [objects[0].metadata.banner.url]
+              },
+              robots: {
+                index: true,
+                follow: true,
+                nocache: true,
+                googleBot: {
+                  index: true,
+                  follow: true,
+                  noimageindex: true
+                }
+              }
+        }
+    }catch(err){
+        return{
+            title: "Devmotors",
+            description: "A melhor oficina para manutenção do seu possante.",
+        }
+    }
+}
+
 
 export default async function Page({ params: { slug } }: {
     params: { slug: string }
@@ -60,6 +98,7 @@ export default async function Page({ params: { slug } }: {
                             fill
                             priority
                             src={objects[0].metadata.description.banner.url}
+                            sizes="(max-width: 480px) 100vw, (max-width: 1024px) 75vw, vw"
                        /> 
                     </div>
 
